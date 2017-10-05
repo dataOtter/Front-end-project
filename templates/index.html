@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Website</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../static/js/index.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!--<nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="/showSignin"> Sign In</a></li>
+                </ul>
+            </nav>-->
+            <h3 class="text-muted">DB Add-Edit-View</h3>
+        </div>
+
+        <div class="jumbotron">
+            <input type="text" name="input_key" id="input_key" class="form-control" placeholder="Key">
+            <input type="text" name="input_value" id="input_value" class="form-control" placeholder="Value">
+            <p><a id='add_button' class="btn btn-lg btn-success">Add</a></p>
+
+            <p id="add_success"></p>
+
+        </div>
+
+        <div id="show_table">
+            <h4>The Table</h4>
+            <table id="TheTable">
+                <!--<tr>
+                    <th>Index</th>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>i1</td>
+                    <td>k1</td>
+                    <td>v1</td>
+                </tr>-->
+            </table>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Maisha Forschung</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
