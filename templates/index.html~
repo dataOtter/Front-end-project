@@ -34,7 +34,7 @@
 
         <div class="jumbotron">
             <p><button id='download_button' class="btn btn-lg btn-success">Download</button></p>
-            <a href="outputs/outputs.zip" download>Download here</a>
+            <a href="static/test.csv" download>Download here</a>
         </div>
 
 

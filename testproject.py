@@ -3,14 +3,14 @@ import DataAccessObject as dao
 
 app = f.Flask(__name__)
 app.secret_key = 'why would I tell you my secret key?'
-pair_added = ''
+
 
 @app.route("/")
 def main():
     return f.render_template('index.html')
 
 
-@app.route("/add", methods=["POST"])
+@app.route("/add", methods=["POST", "GET"])
 def add():
     key_value = f.request.json
 
@@ -19,27 +19,27 @@ def add():
         print(k, v)
         #pair_added = k + v
 
-    return f.render_template('index.html')
+    return "Pair added to the database"
 
 
-@app.route("/add_success", methods=["GET"])
-def add_success():
-    added = "Added to the database"
-    #show_list()
-    return f.jsonify({'value': added})
-
-
-@app.route("/show_list", methods=["GET"])
-def show_list():
+@app.route("/show_table", methods=["GET"])
+def show_table():
     temp_list = []
     all_data = dao.get_all_data_from_db()
     #print(type(all_data), type(all_data[0]), type(all_data[0][0]), all_data)
     for tup in all_data:
         temp_list.append(list(tup))
-    json_dict = {'one': temp_list}
-    #print("the data " + str(json_dict))
 
-    return f.jsonify(json_dict)
+    return f.jsonify({'one': temp_list})
+
+
+@app.route("/download_csv", methods=["GET"])
+def download_csv():
+    return f.send_file('outputs/test.csv',
+                       mimetype='text/csv',
+                       attachment_filename='test.csv',
+                       as_attachment=True)
+
 
 if __name__ == "__main__":
     app.run()

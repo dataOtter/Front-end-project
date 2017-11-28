@@ -1,13 +1,11 @@
 $(document).ready(function(){
 
-    $('#add_button').click(function() {
+    $('#outer_box').on('click', '#add_button', function() {
 
-        //alert("This");
-        var thedata = {};
-        var thekey = $('#input_key').val();
-        var thevalue = $('#input_value').val();
+        var thedata = {},
+        thekey = $('#input_key').val(),
+        thevalue = $('#input_value').val();
         thedata[thekey] = thevalue;
-        //alert(thedata);
 
         $.ajax({
             type: 'POST',
@@ -15,47 +13,51 @@ $(document).ready(function(){
             data: JSON.stringify(thedata),  // data must be a dict style, even if its the same values
             url: '/add',
             success: function(response) {
-                console.log("success!! " + response);
-
+                success_fn(response);
                 $.getJSON({
-                        url: "/add_success",
-                        data: { get_param: 'msg' },
-                        dataType: 'json',
-                        type: "GET",
-                        success: function(ddd){
-                            $("#add_success").html(ddd.value + ": " + thekey + " " + thevalue);
-                            $("#input_key").val('');
-                            $("#input_value").val('');
-                        },
-                    });
-
-                $.getJSON({
-                        url: "/show_list",
+                        url: "/show_table",
                         data: { get_param: 'list' },
                         dataType: 'json',
                         type: "GET",
-                        success: function(ddd){
-                            //alert(ddd.one);
-                            var new_table = '<h4>The Table</h4><table id="TheTable">';
-                            new_table += '<tr><th>Index</th><th>Key</th><th>Value</th></tr>';
-                            $(ddd.one).each(function(index, element){
-                                new_table += '<tr>';
-                                $(element).each(function(index, element){
-                                    new_table += '<td>' + element + '</td>';
-                                })
-                                new_table += '</tr>';
-                            });
-                            //alert("HERE");
-                            new_table += '</table>';
-                            $("#show_table").html(new_table);
-                        },
-                    });
+                        success: function(data_in) { show_table (data_in) }
+                });
             },
-            error: function(error) {
-                console.log("failure!! " + error);
-            }
+            error: function(error) { console.log("failure!! " + error); }
         });
 
+        function success_fn(result){
+            $("#add_success").html(result + ": " + thekey + " " + thevalue);
+            $("#input_key").val('');
+            $("#input_value").val('');
+        }
     });
 
+    $('#outer_box').on('click', '#download_button', function() {
+        $.get({
+                url: "/download_csv",
+                //dataType: 'json',
+                success: function(file_in) {
+                    alert(file_in);
+                }
+        });
+    });
+
+    //$('a').click(function(e) {
+        //e.preventDefault();  //stop the browser from following
+        //window.location.href = 'outputs/test.csv';
+    //});
+
+    function show_table(data) {
+        var new_table = '<h4>The Table</h4><table id="TheTable">';
+        new_table += '<tr><th>Index</th><th>Key</th><th>Value</th></tr>';
+        $(data.one).each(function(index, element){
+            new_table += '<tr>';
+            $(element).each(function(index, element){
+                new_table += '<td>' + element + '</td>';
+            })
+            new_table += '</tr>';
+        });
+        new_table += '</table>';
+        $("#show_table").html(new_table);
+    }
 });
